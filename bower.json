@@ -1,0 +1,32 @@
+{
+  "name": "firebase-upload",
+  "version": "1.0.0",
+  "authors": [
+    "Sami Suo-Heikki <anonymous@example.com>"
+  ],
+  "description": "An element providing a solution to no problem in particular.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "firebase",
+    "upload",
+    "firebase-upload",
+    "file upload"
+  ],
+  "main": "firebase-upload.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/samiheikki/firebase-upload/",
+  "ignore": [
+    "/.*",
+    "/test/",
+    "/demo/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}
