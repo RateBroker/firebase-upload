@@ -1,56 +1,24 @@
-# firebase-upload
+firebase-upload
+===============
 
-An element providing a starting point for your own reusable Polymer elements.
+![Screenshot](https://github.com/samiheikki/firebase-upload/raw/master/demo.PNG)
 
-
-## Dependencies
-
-Element dependencies are managed via [Bower](http://bower.io/). You can
-install that via:
-
-    npm install -g bower
-
-Then, go ahead and download the element's dependencies:
-
-    bower install
+firebase-upload is an element providing a file upload to your Firebase database. firebase-upload uses [vaadin-upload](https://github.com/vaadin/vaadin-upload). For other than firebase upload use cases, please use [vaadin-upload](https://github.com/vaadin/vaadin-upload).
 
 
-## Playing With Your Element
+See a [live demo](http://samiheikki.github.io/firebase-upload/).
 
-If you wish to work on your element in isolation, we recommend that you use
-[Polyserve](https://github.com/PolymerLabs/polyserve) to keep your element's
-bower dependencies in line. You can install it via:
+## Getting Started
 
-    npm install -g polyserve
+### Installation
+```bash
+bower install firebase-upload --save
+```
 
-And you can run it via:
+### Usage
+```html
+<firebase-upload url="https://<YOUR FIREBASE>.firebaseio.com"></firebase-upload>
+```
 
-    polyserve
-
-Once running, you can preview your element at
-`http://localhost:8080/components/firebase-upload/`, where `firebase-upload` is the name of the directory containing it.
-
-
-## Testing Your Element
-
-Simply navigate to the `/test` directory of your element to run its tests. If
-you are using Polyserve: `http://localhost:8080/components/firebase-upload/test/`
-
-### web-component-tester
-
-The tests are compatible with [web-component-tester](https://github.com/Polymer/web-component-tester).
-Install it via:
-
-    npm install -g web-component-tester
-
-Then, you can run your tests on _all_ of your local browsers via:
-
-    wct
-
-#### WCT Tips
-
-`wct -l chrome` will only run tests in chrome.
-
-`wct -p` will keep the browsers alive after test runs (refresh to re-run).
-
-`wct test/some-file.html` will test only the files you specify.
+### Development
+Use ```polyserve``` during development as instructed in [Create a reusable element](https://www.polymer-project.org/1.0/docs/start/reusableelements.html) article.
