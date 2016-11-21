@@ -80,7 +80,9 @@ Example:
     },
 
     attached: function() {
-      Object.getPrototypeOf(document.createElement('vaadin-upload'))._createXhr = this._uploadFile;
+      this.vaadinUpload = this.$$('vaadin-upload');
+      this.vaadinUpload._uploadFile = this._uploadFile.bind(this);
+      // Object.getPrototypeOf(document.createElement('vaadin-upload'))._createXhr = this._uploadFile;
     },
 
     detached: function() {
@@ -89,10 +91,14 @@ Example:
     // Element Behavior
 
     _uploadFile: function(file) {
-      
+
       console.log('Trying a blob or file!');
       var file = file // use the Blob or File API
       var ref = firebase.storage().ref();
+      var ini = Date.now();
+      var last;
+
+      console.log(file.name);
 
       var uploadTask = ref.child(this.path + '/' + file.name).put(file);
 
@@ -100,10 +106,13 @@ Example:
       // 1. 'state_changed' observer, called any time the state changes
       // 2. Error observer, called on failure
       // 3. Completion observer, called on successful completion
-      uploadTask.on('state_changed', function(snapshot){
+      uploadTask.on('state_changed', function(snapshot) {
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        last = Date.now();
+        var elapsed = (last - ini) / 1000;
         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        // this.vaadinUpload._setStatus(file, snapshot.totalBytes, snapshot.bytesTransferred, elapsed, progress);
         console.log('Upload is ' + progress + '% done');
         switch (snapshot.state) {
           case firebase.storage.TaskState.PAUSED: // or 'paused'
@@ -113,15 +122,24 @@ Example:
             console.log('Upload is running');
             break;
         }
-      }, function(error) {
+        this.vaadinUpload._notifyFileChanges(file);
+      }.bind(this), function(error) {
+        throw new Error(error);
+        // console.log(arguments);
         // Handle unsuccessful uploads
       }, function() {
-        // Handle successful uploads on complete
-        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        file.uploading = false;
+        file.complete = !file.error;
+        this.vaadinUpload.fire('upload-' + (file.error ? 'error' : 'success'), {file: file, xhr: null});
+        this.vaadinUpload._notifyFileChanges(file);
         var downloadURL = uploadTask.snapshot.downloadURL;
-      });
+      }.bind(this));
 
+      file.uploading = file.indeterminate = true;
+      file.complete = file.abort = file.error = false;
 
+      this.vaadinUpload.fire('upload-start', {file: file, xhr: null});
+      this.vaadinUpload._notifyFileChanges(file);
 
       // var ref = firebase.storage().ref();
       // debugger;
